@@ -9,25 +9,25 @@ function show_msg() {
 ############################################################
 
 show_msg "stop gsad.service"
-systemct stop    gsad
-systemct disable gsad
+systemctl stop    gsad
+systemctl disable gsad
 
 show_msg "stop gvmd.service"
-systemct stop    gvmd
-systemct disable gvmd
+systemctl stop    gvmd
+systemctl disable gvmd
 
 show_msg "stop ospd-openvas.service"
-systemct stop    ospd-openvas
-systemct disable ospd-openvas
+systemctl stop    ospd-openvas
+systemctl disable ospd-openvas
 
 show_msg "stop thp_never.service"
-systemctl stop   thp_never
-systemct disable thp_never
+systemctll stop   thp_never
+systemctl disable thp_never
 
 show_msg "stop redis-server@openvas.service"
-systemctl stop   redis-server@openvas
-systemct disable redis-server@openvas
+systemctll stop   redis-server@openvas
+systemctl disable redis-server@openvas
 
 show_msg "stop postgresql.service"
-systemctl stop   postgresql
-systemct disable postgresql
+systemctll stop   postgresql
+systemctl disable postgresql
