@@ -21,13 +21,13 @@ systemctl stop    ospd-openvas
 systemctl disable ospd-openvas
 
 show_msg "stop thp_never.service"
-systemctll stop   thp_never
+systemctl stop    thp_never
 systemctl disable thp_never
 
 show_msg "stop redis-server@openvas.service"
-systemctll stop   redis-server@openvas
+systemctl stop    redis-server@openvas
 systemctl disable redis-server@openvas
 
 show_msg "stop postgresql.service"
-systemctll stop   postgresql
+systemctl stop    postgresql
 systemctl disable postgresql
