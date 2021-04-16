@@ -12,3 +12,9 @@ show_msg "delete system user gvm"
 rm -f /usr/local/sbin/openvas
 userdel -rf gvm
 
+
+systemctl daemon-reload
+
+show_msg "openvas uninstall done"
+
+
