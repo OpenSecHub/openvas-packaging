@@ -1,0 +1,121 @@
+# openvas-packaging
+
+only tested in Ubuntu18.04(server) and Ubuntu20.04(server).
+
+| package    | 18.04          | 20.04                                           |
+| ---------- | -------------- | ----------------------------------------------- |
+| libhiredis | libhiredis0.13 | libhiredis0.13                                  |
+| hugepages  | hugepages      | NOT FOUND                                       |
+| PYTHONPATH | ok             | not work, can't find the pacakge in PYTHONPATH. |
+
+## Info
+
+![module](res/openvas-modules.svg)
+
+### OpenVAS modules
+
+| module          | description                                                                                      |
+| --------------- | ------------------------------------------------------------------------------------------------ |
+| gvm-libs        | Greenbone Vulnerability Management Libraries                                                     |
+| ospd            | OSPd is a framework for vulnerability scanners which share the same communication protocol       |
+| ospd-openvas    | ospd-openvas is an OSP server implementation to allow GVM to remotely control an OpenVAS Scanner |
+| gvmd            | Greenbone Vulnerability Manager                                                                  |
+| gsa             | Greenbone Security Assistant(webUI)                                                              |
+| openvas-scanner | Open Vulnerability Assessment Scanner                                                            |
+| python-gvm      | Greenbone Vulnerability Management Python Library                                                |
+
+### OpenVAS service
+
+| service      | description                                            |
+| ------------ | ------------------------------------------------------ |
+| gvmd         | management server(for API and gsad)                    |
+| gsad         | web server(webUI)                                      |
+| ospd-openvas | a OSP server which gvmd can control openvas-scanner by |
+
+-----------
+
+## Compile
+
+### prepare
+
+install deps
+
+intstall tools
+
+download sources
+
+```bash
+make init
+```
+
+### build
+
+build and install all modules
+
+```bash
+make build
+```
+
+### data
+
+download NVTs and feeds, so all data can be packed into deb.
+
+this operation will take a long time, you can omit it.
+
+```bash
+make data
+```
+
+### pack
+
+dbuild `deb` package.
+
+```bash
+make deb
+```
+
+-------------
+
+## Install
+
+```bash
+apt install -y redis-server nmap snmp gnutls-bin \
+  postgresql postgresql-contrib \
+  libgpgme11 libical3 libradcli4 libssh-gcrypt-4 \
+  libhiredis0.1* libmicrohttpd12 \
+  xml-twig-tools xsltproc \
+  python3-pip python3-distutils
+
+# only for ubuntu-20.04
+pip3 install ospd-openvas
+
+dpkg -i openvas-v20.8.1-amd64.deb
+```
+
+### data
+
+if you pack `data` (make data) into `deb`, it still take a long time to process the data; 
+
+otherwise you need download data manually by cmd below:
+
+```bash
+sudo -Hiu gvm /opt/gvm/bin/greenbone-nvt-sync
+sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type GVMD_DATA
+sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type SCAP
+sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type CERT
+```
+
+### access
+
+| login    | description         |
+| -------- | ------------------- |
+| username | admin               |
+| password | admin               |
+| api      | `<IP>:9390`         |
+| UI       | `https://<IP>:9392` |
+
+
+
+## Reference
+
+[ yu210148/gvm_install - A script to install GVM 11 on Ubuntu 20.04 or Debian 10](https://github.com/yu210148/gvm_install)

@@ -1,0 +1,20 @@
+[Unit]
+Description=OSP server to allow GVM to remotely control an OpenVAS Scanner
+After=network.target networking.service postgresql.service redis.service
+Wants=postgresql.service redis.service
+Documentation=man:ospd-openvas(8)
+ConditionKernelCommandLine=!recovery
+
+[Service]
+Type=simple
+User=gvm
+Group=gvm
+PIDFile=/opt/gvm/var/run/ospd-openvas.pid
+Environment=PYTHONPATH=/opt/gvm/lib/python3.6/site-packages
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/opt/gvm/sbin:/opt/gvm/bin
+ExecStart=/usr/bin/python3 /opt/gvm/bin/ospd-openvas -s /opt/gvm/.config/ospd.conf
+Restart=always
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target

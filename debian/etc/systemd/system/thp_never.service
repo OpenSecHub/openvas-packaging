@@ -1,0 +1,10 @@
+[Unit]
+Description=Disable Kernel Support for Transparent Huge Pages (THP)
+
+[Service]
+Type=simple
+ExecStart=echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled && echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

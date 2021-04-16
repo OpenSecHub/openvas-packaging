@@ -1,0 +1,101 @@
+#!/bin/bash
+
+############################################################
+function show_msg() {
+	echo -e "\033[31m === $1 \033[0m"
+}
+############################################################
+
+
+chown gvm:gvm -R /opt/gvm
+chmod 0755    -R /opt/gvm/lib
+
+show_msg "[system]Reload dynamic linker run-time bindings"
+ldconfig -C /etc/ld.so.cache
+
+show_msg "[system]Reload the systemd manager configuration"
+systemctl daemon-reload
+
+show_msg "[Redis]Disable Kernel Support for Transparent Huge Pages(THP)"
+systemctl enable --now thp_never
+
+show_msg "[Redis]Performance improvement"
+sysctl -p /etc/sysctl.d/redis_sysctl.conf
+
+show_msg "[Redis]Startup"
+chown redis:redis /etc/redis/redis-openvas.conf
+usermod -aG redis gvm
+systemctl enable --now redis-server@openvas
+
+show_msg "[PostgreSQL]Configuration"
+systemctl restart postgresql
+sudo -Hiu postgres createuser gvm
+sudo -Hiu postgres createdb -O gvm gvmd
+sudo -Hiu postgres psql -c 'create role dba with superuser noinherit;' gvmd
+sudo -Hiu postgres psql -c 'grant dba to gvm;' gvmd
+sudo -Hiu postgres psql -c 'create extension "uuid-ossp";' gvmd
+sudo -Hiu postgres psql -c 'create extension "pgcrypto";' gvmd
+
+show_msg "[PostgreSQL]Startup"
+systemctl restart postgresql
+systemctl enable postgresql
+
+# generate certificates
+show_msg "[OpenVAS]Manage certificate infrastructure"
+sudo -Hiu gvm /opt/gvm/bin/gvm-manage-certs -af
+
+# gvmd create user
+show_msg "[gvmd]Create OpenVAS admin user(name:admin,pass:admin)"
+sudo -Hiu gvm /opt/gvm/sbin/gvmd --create-user admin --password=admin
+
+# gvmd set user
+UUID=$(sudo -Hiu gvm  /opt/gvm/sbin/gvmd  --get-users --verbose | grep admin | awk '{print $2}')
+show_msg "[gvmd]admin user uuid $UUID, modify setting"
+sudo -Hiu gvm /opt/gvm/sbin/gvmd --modify-setting 78eceaec-3385-11ea-b237-28d24461215b --value $UUID
+
+# gvmd 1000 limit
+show_msg "[gvmd]cancel 1000 result limit"
+sudo -Hiu gvm /opt/gvm/sbin/gvmd --modify-setting 76374a7a-0569-11e6-b6da-28d24461215b --value 0
+
+# gvmd set scanner
+SCANNER_ID=$(sudo -Hiu gvm /opt/gvm/sbin/gvmd --get-scanners | grep 'Default' |  awk '{print $1}')
+show_msg "[gvmd]default scanner uuid $UUID, modify scanner"
+sudo -Hiu gvm /opt/gvm/sbin/gvmd --modify-scanner=$SCANNER_ID --scanner-host=/opt/gvm/var/run/ospd-openvas.sock
+
+show_msg "[ospd-openvas]Startup"
+systemctl enable --now ospd-openvas
+sleep 5
+systemctl status ospd-openvas
+
+show_msg "[gvmd]Startup"
+systemctl enable --now  gvmd
+sleep 5
+systemct status gvmd
+
+show_msg "[gsad(webUI)]Startup"
+systemctl enable --now  gsad
+sleep 5
+systemct status gsad
+
+# prompt
+echo "############################################################################################"
+echo -e "\nServices"
+echo "  ospd-openvas.service"
+echo "  gvmd.service"
+echo "  gsad.service"
+echo -e "\nAccess"
+echo "  WEB: https://<IP>:9392/"
+echo "  API: <IP>:9390/"
+echo "  username: admin"
+echo "  password: admin"
+echo -e "\nUpdate NVTs"
+echo "  sudo -Hiu gvm /opt/gvm/bin/greenbone-nvt-sync"
+echo -e "\nUpdate Feeds"
+echo "  sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type GVMD_DATA"
+echo "  sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type SCAP"
+echo "  sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type CERT"
+echo -e "\nChange Password"
+echo "  command: sudo -Hiu gvm gvmd --user=admin --new-password=<PASSWORD>"
+echo "############################################################################################"
+
+

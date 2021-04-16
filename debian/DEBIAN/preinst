@@ -1,0 +1,23 @@
+#!/bin/bash
+
+############################################################
+function show_msg() {
+	echo -e "\033[31m === $1 \033[0m"
+}
+############################################################
+
+# create user gvm
+show_msg "create system user gvm"
+
+# -r : create a system account which no aging information
+# -d : user's login directory(does not have to exist but will not be created if it is missing)
+# -c : comment(a short description of the login)
+# -s : login shell, deafult is /bin/sh
+useradd -r -d /opt/gvm -c "GVM (OpenVAS) User" -s /bin/bash gvm
+
+# create home dir
+mkdir -p /opt/gvm
+chown gvm:gvm /opt/gvm
+
+
+cat /etc/passwd|grep gvm
