@@ -8,9 +8,9 @@ ConditionKernelCommandLine=!recovery
 Type=forking
 User=gvm
 Group=gvm
-PIDFile=/opt/gvm/var/run/gsad.pid
+#PIDFile=/opt/gvm/var/run/gsad.pid
 Environment=LD_LIBRARY_PATH=/opt/gvm/lib
-ExecStart=/opt/gvm/sbin/gsad --listen 0.0.0.0 --port 9392 --mlisten=127.0.0.1 -m 9390
+ExecStart=/opt/gvm/sbin/gsad --listen 0.0.0.0 --port 9392 --mlisten=127.0.0.1 -m 9390 --no-redirect --client-watch-interval=5
 Restart=always
 TimeoutStopSec=10
 
