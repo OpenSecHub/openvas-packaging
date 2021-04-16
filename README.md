@@ -1,12 +1,6 @@
 # openvas-packaging
 
-only tested in Ubuntu18.04(server) and Ubuntu20.04(server).
-
-| package    | 18.04          | 20.04                                           |
-| ---------- | -------------- | ----------------------------------------------- |
-| libhiredis | libhiredis0.13 | libhiredis0.13                                  |
-| hugepages  | hugepages      | NOT FOUND                                       |
-| PYTHONPATH | ok             | not work, can't find the pacakge in PYTHONPATH. |
+> only tested in Ubuntu20.04(server). ubuntu18.04 has a guntls version issue for openvas-scanner
 
 ## Info
 
@@ -42,7 +36,7 @@ install deps
 
 intstall tools
 
-download sources
+download sources(all sources in dir `src`)
 
 ```bash
 make init
@@ -86,7 +80,7 @@ apt install -y redis-server nmap snmp gnutls-bin \
   xml-twig-tools xsltproc \
   python3-pip python3-distutils
 
-# only for ubuntu-20.04
+pip3 install --upgrade pip
 pip3 install ospd-openvas
 
 dpkg -i openvas-v20.8.1-amd64.deb
@@ -113,8 +107,6 @@ sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type CERT
 | password | admin               |
 | api      | `<IP>:9390`         |
 | UI       | `https://<IP>:9392` |
-
-
 
 ## Reference
 

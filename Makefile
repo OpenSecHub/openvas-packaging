@@ -1,25 +1,25 @@
-.PHONY: all init clean target_clean gvm-libs openvas-scanner gvmd gsa ospd ospd-openvas data cert nvt feed
+.PHONY: all init clean target_clean gvm-libs openvas-scanner gvmd gsa data cert nvt feed
 
-BASE_VER=v20.8.1
+PACKVER=20.8.1
+BASE_VER=v${PACKVER}
 
 GVM_LIBS_VER=${BASE_VER}
 SCANNER_VER=${BASE_VER}
 GVMD_VER=${BASE_VER}
 GSA_VER=${BASE_VER}
-OSPD_VER=${BASE_VER}
-OSPD_OPENVAS_VER=${BASE_VER}
+#OSPD_VER=${BASE_VER}
+#OSPD_OPENVAS_VER=${BASE_VER}
+
 
 PWD=$(shell pwd)
 # DO NOT MODIFY
 INSTALL_PATH=/opt/gvm
-PY3VER=$(shell python3 --version | grep -o [0-9]\.[0-9])
-_PYTHONPATH=${INSTALL_PATH}/lib/python${PY3VER}/site-packages/
 ###############################################################################
 
 all:build data deb
 
 # compile all modules
-build:gvm-libs openvas-scanner gvmd ospd ospd-openvas gsa
+build:gvm-libs openvas-scanner gvmd gsa
 
 # download datas
 data:cert nvt feed
@@ -38,13 +38,14 @@ define build_c_module
 	@ cd build/$(1) && make install
 endef
 
+# this works for ubuntu 18.04
 # $1 module name
 # $2 moudle version
-define build_python_module
-	@ echo "================= $(1) Building ... "
-	@ cd ${PWD}/src/$(1) && git checkout $(2)
-	@ cd ${PWD}/src/$(1) && export PYTHONPATH=${_PYTHONPATH} && python3 setup.py install --prefix=${INSTALL_PATH}
-endef
+#define build_python_module
+#	@ echo "================= $(1) Building ... "
+#	@ cd ${PWD}/src/$(1) && git checkout $(2)
+#	@ cd ${PWD}/src/$(1) && export PYTHONPATH=${_PYTHONPATH} && python3 setup.py install --prefix=${INSTALL_PATH}
+#endef
 ###############################################################################
 
 gvm-libs:
@@ -59,24 +60,23 @@ gvmd:
 gsa:
 	$(call build_c_module,$@,${GSA_VER})
 
-ospd:
-	$(call build_python_module,$@,${OSPD_VER})
-
-ospd-openvas:
-	$(call build_python_module,$@,${OSPD_OPENVAS_VER})
+#ospd:
+#	$(call build_python_module,$@,${OSPD_VER})
+#
+#ospd-openvas:
+#	$(call build_python_module,$@,${OSPD_OPENVAS_VER})
 ###############################################################################
 
 deb:
-	echo "================= Packaging ... "
+	@ echo "================= Packaging ... "
 	rm -rf build/debian
 	mkdir -p build
 	cp -frp debian build/
+	sed -i "s/%VERSION%/${PACKVER}/" build/debian/DEBIAN/control
 	cp -frp ${INSTALL_PATH} build/debian/opt/
 	echo "db_address = /run/redis-openvas/redis.sock" > build/debian/opt/gvm/etc/openvas/openvas.conf
-	echo "export PYTHONPATH=${_PYTHONPATH}" >  build/debian/opt/gvm/.bashrc
-	echo "export LD_LIBRARY_PATH=/opt/gvm/lib" >>  build/debian/opt/gvm/.bashrc
-	echo "export PATH=\$$PATH:/opt/gvm/sbin:/opt/gvm/bin" >>  build/debian/opt/gvm/.bashrc
 	rm -rf build/debian/opt/gvm/var/run/*
+	rm -rf build/debian/opt/gvm/var/log/gvm/*
 	chown gvm:gvm -R build/debian/opt/gvm
 	chmod 0755 -R build/debian/opt/gvm/lib
 	dpkg -b build/debian openvas-${BASE_VER}-amd64.deb
@@ -123,12 +123,13 @@ init:
         xsltproc          \
         xmltoman          \
         clang-format      \
-        doxygen           \
-		python3-pip
+        doxygen
+
+#	python3-pip
 
 	# python
-	pip3 install pip --upgrade
-	pip3 install setuptools setuptools_rust
+	#pip3 install pip --upgrade
+	#pip3 install setuptools setuptools_rust
 
 	# install yarn
 	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
