@@ -6,5 +6,7 @@ if [ "$BASH" ]; then
   fi
 fi
 
+script /dev/null
+
 mesg n || true
 

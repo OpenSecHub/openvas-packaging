@@ -73,12 +73,12 @@ systemctl status ospd-openvas
 show_msg "[gvmd]Startup"
 systemctl enable --now  gvmd
 sleep 5
-systemct status gvmd
+systemctl status gvmd
 
 show_msg "[gsad(webUI)]Startup"
 systemctl enable --now  gsad
 sleep 5
-systemct status gsad
+systemctl status gsad
 
 # prompt
 echo "############################################################################################"
