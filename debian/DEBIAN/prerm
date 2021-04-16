@@ -1,0 +1,33 @@
+#!/bin/bash
+
+### stop all services
+
+############################################################
+function show_msg() {
+	echo -e "\033[31m === $1 \033[0m"
+}
+############################################################
+
+show_msg "stop gsad.service"
+systemct stop    gsad
+systemct disable gsad
+
+show_msg "stop gvmd.service"
+systemct stop    gvmd
+systemct disable gvmd
+
+show_msg "stop ospd-openvas.service"
+systemct stop    ospd-openvas
+systemct disable ospd-openvas
+
+show_msg "stop thp_never.service"
+systemctl stop   thp_never
+systemct disable thp_never
+
+show_msg "stop redis-server@openvas.service"
+systemctl stop   redis-server@openvas
+systemct disable redis-server@openvas
+
+show_msg "stop postgresql.service"
+systemctl stop   postgresql
+systemct disable postgresql

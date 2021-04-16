@@ -10,6 +10,9 @@ function show_msg() {
 chown gvm:gvm -R /opt/gvm
 chmod 0755    -R /opt/gvm/lib
 
+# for ospd-openvas
+ln -s /opt/gvm/sbin/openvas /usr/local/sbin/openvas
+
 show_msg "[system]Reload dynamic linker run-time bindings"
 ldconfig -C /etc/ld.so.cache
 

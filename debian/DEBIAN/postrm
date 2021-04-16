@@ -1,0 +1,14 @@
+#!/bin/bash
+
+############################################################
+function show_msg() {
+	echo -e "\033[31m === $1 \033[0m"
+}
+############################################################
+
+# delete user gvm
+show_msg "delete system user gvm"
+
+rm -f /usr/local/sbin/openvas
+userdel -rf gvm
+
