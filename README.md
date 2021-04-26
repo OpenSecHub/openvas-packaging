@@ -80,7 +80,7 @@ apt install -y redis-server nmap snmp gnutls-bin \
   xml-twig-tools xsltproc \
   python3-pip python3-distutils
 
-pip3 install --upgrade pip
+python3 -m pip install --upgrade pip
 pip3 install ospd-openvas
 
 dpkg -i openvas-v20.8.1-amd64.deb
