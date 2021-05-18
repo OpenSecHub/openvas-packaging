@@ -18,6 +18,7 @@ sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type SCAP         >/dev/null 2
 show_msg "CERT ..."
 sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type CERT         >/dev/null 2>>${LOGFILE}
 
+sudo -Hiu gvm /opt/gvm/sbin/openvas --update-vt-info                >/dev/null 2>>${LOGFILE}
 
 show_msg "end"
 

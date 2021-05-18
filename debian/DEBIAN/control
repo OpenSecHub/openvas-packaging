@@ -3,7 +3,7 @@ Version: %VERSION%
 Architecture: amd64
 Section: utils
 Priority: optional
-Depends: redis-server, nmap, snmp, gnutls-bin, postgresql, postgresql-contrib, libgpgme11, libical3, libradcli4, libssh-gcrypt-4, libmicrohttpd12, python3-pip, python3-distutils, xml-twig-tools, xsltproc
+Depends: redis-server, libhiredis0.14, nmap, snmp, gnutls-bin, postgresql, postgresql-contrib, libgpgme11, libical3, libradcli4, libssh-gcrypt-4, libmicrohttpd12, libnet1, xml-twig-tools, xsltproc
 Maintainer: LubinLew
 Homepage: https://github.com/OpenSecHub/openvas-packaging
 Description: Open Vulnerability Assessment Scanner

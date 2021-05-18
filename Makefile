@@ -1,14 +1,14 @@
 .PHONY: all init clean target_clean gvm-libs openvas-scanner gvmd gsa data cert nvt feed
 
-PACKVER=20.8.1
+PACKVER=21.4.0
 BASE_VER=v${PACKVER}
 
 GVM_LIBS_VER=${BASE_VER}
 SCANNER_VER=${BASE_VER}
 GVMD_VER=${BASE_VER}
 GSA_VER=${BASE_VER}
-#OSPD_VER=${BASE_VER}
-#OSPD_OPENVAS_VER=${BASE_VER}
+OSPD_VER=${BASE_VER}
+OSPD_OPENVAS_VER=${BASE_VER}
 
 
 PWD=$(shell pwd)
@@ -19,7 +19,7 @@ INSTALL_PATH=/opt/gvm
 all:build data deb
 
 # compile all modules
-build:gvm-libs openvas-scanner gvmd gsa
+build:gvm-libs openvas-scanner gvmd gsa ospd ospd-openvas
 
 # download datas
 data:cert nvt feed
@@ -38,14 +38,14 @@ define build_c_module
 	@ cd build/$(1) && make install
 endef
 
-# this works for ubuntu 18.04
+
 # $1 module name
 # $2 moudle version
-#define build_python_module
-#	@ echo "================= $(1) Building ... "
-#	@ cd ${PWD}/src/$(1) && git checkout $(2)
-#	@ cd ${PWD}/src/$(1) && export PYTHONPATH=${_PYTHONPATH} && python3 setup.py install --prefix=${INSTALL_PATH}
-#endef
+define build_python_module
+	@ echo "================= $(1) Building ... "
+	@ cd ${PWD}/src/$(1) && git checkout $(2)
+	@ cd ${PWD}/src/$(1) && /opt/gvm/py3venv/bin/python setup.py install
+endef
 ###############################################################################
 
 gvm-libs:
@@ -60,11 +60,11 @@ gvmd:
 gsa:
 	$(call build_c_module,$@,${GSA_VER})
 
-#ospd:
-#	$(call build_python_module,$@,${OSPD_VER})
-#
-#ospd-openvas:
-#	$(call build_python_module,$@,${OSPD_OPENVAS_VER})
+ospd:
+	$(call build_python_module,$@,${OSPD_VER})
+
+ospd-openvas:
+	$(call build_python_module,$@,${OSPD_OPENVAS_VER})
 ###############################################################################
 
 deb:
@@ -83,15 +83,15 @@ deb:
 ###############################################################################
 
 cert:
-	chown gvm:gvm /opt/gvm
+	chown gvm:gvm -R /opt/gvm
 	sudo -Hiu gvm /opt/gvm/bin/gvm-manage-certs -af
 
 nvt:
-	chown gvm:gvm /opt/gvm
+	chown gvm:gvm -R /opt/gvm
 	sudo -Hiu gvm /opt/gvm/bin/greenbone-nvt-sync
 
 feed:
-	chown gvm:gvm /opt/gvm
+	chown gvm:gvm -R /opt/gvm
 	sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type GVMD_DATA
 	sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type SCAP
 	sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type CERT
@@ -99,6 +99,7 @@ feed:
 ###############################################################################
 init:
 	@ apt update
+	@ apt upgrade
 	apt install -y \
         gcc g++ cmake pkg-config bison \
         postgresql-server-dev-all \
@@ -117,19 +118,24 @@ init:
         uuid-dev          \
         libpq-dev         \
         libical-dev       \
+        libnet-dev        \
         libmicrohttpd-dev \
         gnutls-bin        \
         xml-twig-tools    \
         xsltproc          \
         xmltoman          \
         clang-format      \
-        doxygen
+        doxygen           \
+        python3-pip       \
+        python3-venv
 
-#	python3-pip
 
-	# python
-	#pip3 install pip --upgrade
-	#pip3 install setuptools setuptools_rust
+	# python venv
+	pip3 install pip --upgrade
+	mkdir -p /opt/gvm/
+	python3 -m venv /opt/gvm/py3venv
+	/opt/gvm/py3venv/bin/pip3 install setuptools 
+	/opt/gvm/py3venv/bin/pip3 install setuptools_rust
 
 	# install yarn
 	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -149,8 +155,7 @@ init:
 
 	# create user gvm
 	useradd -r -d /opt/gvm -c "GVM (OpenVAS) User" -s /bin/bash gvm
-	mkdir -p /opt/gvm
-	chown gvm:gvm /opt/gvm
+	chown gvm:gvm -R /opt/gvm
 
 clean:
 	rm -rf build

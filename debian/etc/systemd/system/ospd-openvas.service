@@ -10,7 +10,7 @@ Type=simple
 User=gvm
 Group=gvm
 PIDFile=/opt/gvm/var/run/ospd-openvas.pid
-ExecStart=/usr/bin/python3 /usr/local/bin/ospd-openvas -s /opt/gvm/.config/ospd.conf
+ExecStart=/opt/gvm/py3venv/bin/python3 /opt/gvm/py3venv/bin/ospd-openvas -s /opt/gvm/.config/ospd.conf
 Restart=always
 TimeoutStopSec=10
 

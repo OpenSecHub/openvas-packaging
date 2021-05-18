@@ -10,3 +10,9 @@
 [submodule "src/openvas-scanner"]
 	path = src/openvas-scanner
 	url = https://github.com/greenbone/openvas-scanner.git
+[submodule "src/ospd-openvas"]
+	path = src/ospd-openvas
+	url = https://github.com/greenbone/ospd-openvas.git
+[submodule "src/ospd"]
+	path = src/ospd
+	url = https://github.com/greenbone/ospd.git

@@ -75,15 +75,11 @@ make deb
 ```bash
 apt install -y redis-server nmap snmp gnutls-bin \
   postgresql postgresql-contrib \
-  libgpgme11 libical3 libradcli4 libssh-gcrypt-4 \
-  libhiredis0.1* libmicrohttpd12 \
-  xml-twig-tools xsltproc \
-  python3-pip python3-distutils
+  libgpgme11 libical3 libradcli4 libssh-gcrypt-4 libnet1 \
+  libhiredis0.14 libmicrohttpd12 \
+  xml-twig-tools xsltproc
 
-python3 -m pip install --upgrade pip
-pip3 install ospd-openvas
-
-dpkg -i openvas-v20.8.1-amd64.deb
+dpkg -i openvas-v21.4.0-amd64.deb
 ```
 
 ### data
@@ -97,6 +93,7 @@ sudo -Hiu gvm /opt/gvm/bin/greenbone-nvt-sync
 sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type GVMD_DATA
 sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type SCAP
 sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type CERT
+sudo -Hiu gvm /opt/gvm/sbin/openvas --update-vt-info
 ```
 
 ### access
