@@ -99,7 +99,7 @@ echo "  sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type SCAP"
 echo "  sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type CERT"
 echo "  sudo -Hiu gvm /opt/gvm/sbin/openvas --update-vt-info"
 echo -e "\nChange Password"
-echo "  command: sudo -Hiu gvm gvmd --user=admin --new-password=<PASSWORD>"
+echo "  command: sudo -Hiu gvm /opt/gvm/sbin/gvmd --user=admin --new-password=<PASSWORD>"
 echo -e "\n"
 echo "############################################################################################"
 
