@@ -10,13 +10,13 @@
         - [OpenVAS modules](#openvas-modules)
         - [OpenVAS service](#openvas-service)
     - [Compile](#compile)
-        - [prepare](#prepare)
-        - [build](#build)
-        - [data](#data)
-        - [pack](#pack)
-    - [Install](#install)
-        - [data](#data-1)
-        - [access](#access)
+        - [Create build environment](#create-build-environment)
+        - [Build sources](#build-sources)
+        - [Download feeds](#download-feeds)
+        - [Build package](#build-package)
+    - [Install the package](#install-the-package)
+        - [Download feeds](#download-feeds-1)
+        - [Access OpenVAS](#access-openvas)
     - [Reference](#reference)
 
 <!-- /TOC -->
@@ -43,13 +43,13 @@
 | ------------ | ------------------------------------------------------ |
 | gvmd         | management server(for API and gsad)                    |
 | gsad         | web server(webUI)                                      |
-| ospd-openvas | a OSP server which gvmd can control openvas-scanner by |
+| ospd-openvas | a OSP server which gvmd can control openvas-scanner through it |
 
 -----------
 
 ## Compile
 
-### prepare
+### Create build environment
 
 install deps
 
@@ -61,7 +61,7 @@ download sources(all sources in dir `src`)
 make init
 ```
 
-### build
+### Build sources
 
 build and install all modules
 
@@ -69,7 +69,7 @@ build and install all modules
 make build
 ```
 
-### data
+### Download feeds
 
 download NVTs and feeds, so all data can be packed into deb.
 
@@ -79,9 +79,9 @@ this operation will take a long time, you can omit it.
 make data
 ```
 
-### pack
+### Build package
 
-dbuild `deb` package.
+build `deb` package.
 
 ```bash
 make deb
@@ -89,7 +89,7 @@ make deb
 
 -------------
 
-## Install
+## Install the package
 
 ```bash
 apt install -y redis-server nmap snmp gnutls-bin \
@@ -101,13 +101,14 @@ apt install -y redis-server nmap snmp gnutls-bin \
 dpkg -i openvas-v21.4.0-amd64.deb
 ```
 
-### data
+### Download feeds
 
 if you pack `data` (make data) into `deb`, it still take a long time to process the data; 
 
 otherwise you need download data manually by cmd below:
 
 ```bash
+# /opt/gvm/update/update.sh
 sudo -Hiu gvm /opt/gvm/bin/greenbone-nvt-sync
 sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type GVMD_DATA
 sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type SCAP
@@ -115,7 +116,7 @@ sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type CERT
 sudo -Hiu gvm /opt/gvm/sbin/openvas --update-vt-info
 ```
 
-### access
+### Access OpenVAS
 
 | login    | description         |
 | -------- | ------------------- |
