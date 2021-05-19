@@ -1,0 +1,10 @@
+Package: %NAME%
+Version: %VERSION%
+Architecture: amd64
+Section: utils
+Priority: optional
+Depends: openvas
+Maintainer: LubinLew
+Homepage: https://github.com/OpenSecHub/openvas-packaging
+Description: %DESCRIPTION%
+
