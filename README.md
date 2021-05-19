@@ -103,9 +103,9 @@ dpkg -i openvas-v21.4.0-amd64.deb
 
 ### Download feeds
 
-if you pack `data` (make data) into `deb`, it still take a long time to process the data; 
+Even if the NVTs and feeds (`make data`) are packaged into `deb`, it still will take a long time to process the datas; 
 
-otherwise you need download data manually by cmd below:
+otherwise you need download data manually by commands below:
 
 ```bash
 # /opt/gvm/update/update.sh
