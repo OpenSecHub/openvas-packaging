@@ -129,6 +129,6 @@ sudo -Hiu gvm /opt/gvm/sbin/openvas --update-vt-info
 
 [ yu210148/gvm_install - A script to install GVM 11 on Ubuntu 20.04 or Debian 10](https://github.com/yu210148/gvm_install)
 
-https://kifarunix.com/install-and-setup-gvm-11-on-ubuntu-20-04/
+https://kifarunix.com/install-and-setup-gvm-20-08-on-ubuntu/
 
 https://sadsloth.net/post/install-gvm11-src-on-debian/
