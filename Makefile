@@ -191,6 +191,7 @@ init:
 	@ apt upgrade
 	apt install -y \
         gcc g++ cmake pkg-config bison \
+        gcc-mingw-w64 \
         postgresql-server-dev-all \
         libxml2-dev       \
         libglib2.0-dev    \
@@ -209,6 +210,9 @@ init:
         libical-dev       \
         libnet-dev        \
         libmicrohttpd-dev \
+        heimdal-dev       \
+        libpopt-dev       \
+        libunistring-dev  \
         gnutls-bin        \
         xml-twig-tools    \
         xsltproc          \

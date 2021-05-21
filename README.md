@@ -96,10 +96,10 @@ make deb
 apt install -y libxml2  nmap snmp \
   gnutls-bin libssh-gcrypt-4 libnet1 \
   redis-server postgresql postgresql-contrib \
-  libgpgme11 libical3 \
-  libldap-2.4-2 libradcli4 \
+  libgpgme11 libical3 libunistring2 \
+  libldap-2.4-2 libradcli4 libpopt0 \
   libhiredis0.14 libmicrohttpd12 \
-  xml-twig-tools xsltproc
+  xml-twig-tools xsltproc heimdal-clients
 
 dpkg -i openvas-v21.4.0-amd64.deb
 ```
