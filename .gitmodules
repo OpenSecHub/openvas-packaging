@@ -16,3 +16,6 @@
 [submodule "src/ospd"]
 	path = src/ospd
 	url = https://github.com/greenbone/ospd.git
+[submodule "src/openvas-smb"]
+	path = src/openvas-smb
+	url = https://github.com/greenbone/openvas-smb.git

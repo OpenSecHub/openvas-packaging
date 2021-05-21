@@ -1,9 +1,10 @@
-.PHONY: all init clean target_clean gvm-libs openvas-scanner gvmd gsa data cert nvt feed
+.PHONY: all init clean gvm-libs openvas-smb openvas-scanner gvmd gsa data nvt feed
 
 PACKVER=21.4.0
 BASE_VER=v${PACKVER}
 
 GVM_LIBS_VER=${BASE_VER}
+SMB_VER=${BASE_VER}
 SCANNER_VER=${BASE_VER}
 GVMD_VER=${BASE_VER}
 GSA_VER=${BASE_VER}
@@ -49,7 +50,7 @@ endif
 all:build data deb
 
 # compile all modules
-build:gvm-libs openvas-scanner gvmd gsa ospd ospd-openvas
+build:gvm-libs openvas-smb openvas-scanner gvmd gsa ospd ospd-openvas
 
 # download datas
 data:nvt feed
@@ -84,6 +85,9 @@ endef
 gvm-libs:
 	$(call build_c_module,$@,${GVM_LIBS_VER})
 
+openvas-smb:
+	$(call build_c_module,$@,${SMB_VER})
+	
 openvas-scanner:
 	$(call build_c_module,$@,${SCANNER_VER})
 
@@ -245,6 +249,3 @@ init:
 ###############################################################################
 clean:
 	rm -rf build
-	
-target_clean:
-	rm -rf /opt/gvm

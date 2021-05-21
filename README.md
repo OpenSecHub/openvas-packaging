@@ -31,7 +31,7 @@
 | module                                                          | type             | description                                                                        |
 | --------------------------------------------------------------- | ---------------- | ---------------------------------------------------------------------------------- |
 | [gvm-libs](https://github.com/greenbone/gvm-libs)               | C Library        | Greenbone Vulnerability Management Libraries                                       |
-| [openvas-smb](https://github.com/greenbone/openvas-scanner)     | C Library        | SMB module for openvas Scanner                                                     |
+| [openvas-smb](https://github.com/greenbone/openvas-smb)         | C Library        | SMB module for openvas Scanner                                                     |
 | [ospd](https://github.com/greenbone/ospd)                       | Python Library   | a framework for vulnerability scanners which share the same communication protocol |
 | [ospd-openvas](https://github.com/greenbone/ospd-openvas)       | Python Service   | an OSP server implementation to allow GVM to remotely control an openvas Scanner   |
 | [gvmd](https://github.com/greenbone/gvmd)                       | C Service        | Greenbone Vulnerability Manager                                                    |
