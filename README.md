@@ -3,12 +3,13 @@
 > only tested in Ubuntu20.04(server).
 
 ===================
+
 <!-- TOC -->
 
 - [openvas-packaging](#openvas-packaging)
     - [Info](#info)
-        - [OpenVAS modules](#openvas-modules)
-        - [OpenVAS service](#openvas-service)
+        - [openvas modules](#openvas-modules)
+        - [openvas service](#openvas-service)
     - [Compile](#compile)
         - [Create build environment](#create-build-environment)
         - [Build sources](#build-sources)
@@ -16,7 +17,7 @@
         - [Build package](#build-package)
     - [Install the package](#install-the-package)
         - [Download feeds](#download-feeds-1)
-        - [Access OpenVAS](#access-openvas)
+        - [Access openvas](#access-openvas)
     - [Reference](#reference)
 
 <!-- /TOC -->
@@ -25,25 +26,25 @@
 
 ![module](res/openvas-modules.svg)
 
-### OpenVAS modules
+### openvas modules
 
-| module          | description                                                                                      |
-| --------------- | ------------------------------------------------------------------------------------------------ |
-| gvm-libs        | Greenbone Vulnerability Management Libraries                                                     |
-| ospd            | OSPd is a framework for vulnerability scanners which share the same communication protocol       |
-| ospd-openvas    | ospd-openvas is an OSP server implementation to allow GVM to remotely control an OpenVAS Scanner |
-| gvmd            | Greenbone Vulnerability Manager                                                                  |
-| gsa             | Greenbone Security Assistant(webUI)                                                              |
-| openvas-scanner | Open Vulnerability Assessment Scanner                                                            |
-| python-gvm      | Greenbone Vulnerability Management Python Library                                                |
+| module                                                          | type             | description                                                                        |
+| --------------------------------------------------------------- | ---------------- | ---------------------------------------------------------------------------------- |
+| [gvm-libs](https://github.com/greenbone/gvm-libs)               | C Library        | Greenbone Vulnerability Management Libraries                                       |
+| [openvas-smb](https://github.com/greenbone/openvas-scanner)     | C Library        | SMB module for openvas Scanner                                                     |
+| [ospd](https://github.com/greenbone/ospd)                       | Python Library   | a framework for vulnerability scanners which share the same communication protocol |
+| [ospd-openvas](https://github.com/greenbone/ospd-openvas)       | Python Service   | an OSP server implementation to allow GVM to remotely control an openvas Scanner   |
+| [gvmd](https://github.com/greenbone/gvmd)                       | C Service        | Greenbone Vulnerability Manager                                                    |
+| [gsa](https://github.com/greenbone/gsa)                         | React-UI Service | Greenbone Security Assistant(webUI)                                                |
+| [openvas-scanner](https://github.com/greenbone/openvas-scanner) | C tool           | Open Vulnerability Assessment Scanner                                              |
 
-### OpenVAS service
+### openvas service
 
-| service      | description                                            |
-| ------------ | ------------------------------------------------------ |
-| gvmd         | management server(for API and gsad)                    |
-| gsad         | web server(webUI)                                      |
-| ospd-openvas | a OSP server which gvmd can control openvas-scanner through it |
+| service      | description                                                                      |
+| ------------ | -------------------------------------------------------------------------------- |
+| gvmd         | management server(for API and gsad)                                              |
+| gsad         | web server(webUI)                                                                |
+| ospd-openvas | a OSP server implementation to allow gvmd to remotely control an openvas Scanner |
 
 -----------
 
@@ -92,9 +93,11 @@ make deb
 ## Install the package
 
 ```bash
-apt install -y redis-server nmap snmp gnutls-bin \
-  postgresql postgresql-contrib \
-  libgpgme11 libical3 libradcli4 libssh-gcrypt-4 libnet1 \
+apt install -y libxml2  nmap snmp \
+  gnutls-bin libssh-gcrypt-4 libnet1 \
+  redis-server postgresql postgresql-contrib \
+  libgpgme11 libical3 \
+  libldap-2.4-2 libradcli4 \
   libhiredis0.14 libmicrohttpd12 \
   xml-twig-tools xsltproc
 
@@ -116,7 +119,7 @@ sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type CERT
 sudo -Hiu gvm /opt/gvm/sbin/openvas --update-vt-info
 ```
 
-### Access OpenVAS
+### Access openvas
 
 | login    | description         |
 | -------- | ------------------- |
