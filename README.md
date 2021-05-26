@@ -1,7 +1,5 @@
 # openvas-packaging
 
-> only tested in Ubuntu20.04(server).
-
 ===================
 
 <!-- TOC -->
