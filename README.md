@@ -131,7 +131,7 @@ sudo -Hiu gvm /opt/gvm/sbin/openvas --update-vt-info
 
 ## Reference
 
-
+https://www.howtoforge.com/how-to-install-and-use-gvm-vulnerability-scanner-on-ubuntu-20-04/
 
 [ yu210148/gvm_install - A script to install GVM 11 on Ubuntu 20.04 or Debian 10](https://github.com/yu210148/gvm_install)
 
