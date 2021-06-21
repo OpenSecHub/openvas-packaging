@@ -1,5 +1,8 @@
 # openvas-packaging
 
+> [(CentOS 8 build)](https://ufukyildirim.com.tr/centos-8-uzerinde-gvm-20-04-kurulumu/)
+> [(CenOS 8 rpms)](https://centos.pkgs.org/8/atomic-x86_64/gvm-21.4.0-18432.el8.art.noarch.rpm.html)
+
 ===================
 
 <!-- TOC -->
@@ -127,6 +130,8 @@ sudo -Hiu gvm /opt/gvm/sbin/openvas --update-vt-info
 | UI       | `https://<IP>:9392` |
 
 ## Reference
+
+
 
 [ yu210148/gvm_install - A script to install GVM 11 on Ubuntu 20.04 or Debian 10](https://github.com/yu210148/gvm_install)
 
