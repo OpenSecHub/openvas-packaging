@@ -25,7 +25,7 @@
 
 ## Info
 
-![module](res/openvas-modules.svg)
+![module](docs/openvas-modules.svg)
 
 ### openvas modules
 
