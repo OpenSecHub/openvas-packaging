@@ -71,16 +71,6 @@ build and install all modules
 make build
 ```
 
-### Download feeds
-
-download NVTs and feeds, so all data can be packed into deb.
-
-this operation will take a long time, you can omit it.
-
-```bash
-make data
-```
-
 ### Build package
 
 build `deb` package.
