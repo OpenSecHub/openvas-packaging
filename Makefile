@@ -14,7 +14,7 @@ OSPD_OPENVAS_VER=${PACKVER}
 PWD=$(shell pwd)
 # DO NOT MODIFY
 INSTALL_PATH=/opt/gvm
-
+PYTHONVENV=${INSTALL_PATH}/python3
 ###############################################################################
 .PHONY: all init clean gvm-libs openvas-smb openvas-scanner gvmd gsa ospd ospd-openvas
 
@@ -34,7 +34,7 @@ define build_c_module
 	@ cd build/$(1) && tar xf v$(2).tar.gz
 	@ cd build/$(1)/build && \
 			export PKG_CONFIG_PATH=/opt/gvm/lib/pkgconfig:$PKG_CONFIG_PATH && \
-			cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${INSTALL_PATH} ../$(1)-$(2)
+			cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${INSTALL_PATH} ../$(1)-$(2) 2>&1 | tee ../config.log 
 	@ cd build/$(1)/build && make install 2>&1 | tee ../build.log
 endef
 
@@ -47,7 +47,7 @@ define build_python_module
 	@ mkdir -p build/$(1)
 	@ cd build/$(1) && wget https://github.com/greenbone/$(1)/archive/refs/tags/v$(2).tar.gz
 	@ cd build/$(1) && tar xf v$(2).tar.gz
-	@ cd build/$(1)/$(1)-$(2) && /opt/gvm/py3venv/bin/python setup.py install 2>&1 | tee ../build.log
+	@ cd build/$(1)/$(1)-$(2) && ${PYTHONVENV}/bin/python setup.py install 2>&1 | tee ../install.log
 endef
 ###############################################################################
 
@@ -122,6 +122,7 @@ init:
         xmltoman          \
         clang-format      \
         doxygen           \
+        graphviz          \
         python3-pip       \
         python3-venv
 
@@ -129,9 +130,9 @@ init:
 	# python venv
 	pip3 install pip --upgrade
 	mkdir -p /opt/gvm/
-	python3 -m venv /opt/gvm/py3venv
-	/opt/gvm/py3venv/bin/pip3 install setuptools 
-	/opt/gvm/py3venv/bin/pip3 install setuptools_rust
+	python3 -m venv ${PYTHONVENV}
+	${PYTHONVENV}/bin/pip3 install setuptools 
+	${PYTHONVENV}/bin/pip3 install setuptools_rust
 
 	# install yarn
 	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
