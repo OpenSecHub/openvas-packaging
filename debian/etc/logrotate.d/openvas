@@ -1,0 +1,11 @@
+/opt/gvm/var/log/gvm/gvmd.log
+/opt/gvm/var/log/gvm/gsad.log
+/opt/gvm/var/log/gvm/openvas.log
+/opt/gvm/var/log/gvm/ospd-openvas.log {
+	compress
+	missingok
+	notifempty
+	sharedscripts
+	copytruncate
+}
+
