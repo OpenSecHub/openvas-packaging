@@ -155,5 +155,30 @@ init:
 	chown gvm:gvm -R /opt/gvm
 
 ###############################################################################
+install:
+	@ apt install -y libpcap0.8 libldap-2.4-2 libldap-common libpopt0 libgpgme11 libhdb9-heimdal \
+		libical3 libradcli4 libssh2-1 libssh-gcrypt-4 libnet1 libhiredis0.14 libmicrohttpd12 \
+		libxml2 libuuid1 libgcrypt20 libgssapi3-heimdal libksba8 nmap snmp gnutls-bin \
+		redis-server postgresql postgresql-contrib xml-twig-tools xsltproc zlib1g
+
+	@ echo "db_address = /run/redis-openvas/redis.sock" > /opt/gvm/etc/openvas/openvas.conf
+
+	@ cp -r debian/opt/gvm/.config    /opt/gvm/
+	@ cp -r debian/opt/gvm/update     /opt/gvm/
+	@ cp debian/opt/gvm/.bashrc       /opt/gvm/
+	@ cp debian/opt/gvm/.profile      /opt/gvm/
+	@ cp debian/etc/redis/*           /etc/redis/
+	@ cp debian/etc/cron.d/*          /etc/cron.d/
+	@ cp debian/etc/ld.so.conf.d/*    /etc/ld.so.conf.d/
+	@ cp debian/etc/sudoers.d/*       /etc/sudoers.d/
+	@ cp debian/etc/sysctl.d/*        /etc/sysctl.d/
+	@ cp debian/etc/systemd/system/*  /etc/systemd/system/
+
+	@ chown gvm:gvm -R /opt/gvm
+	@ chmod 0755 -R    /opt/gvm/lib
+
+	@ bash debian/DEBIAN/postinst
+
+###############################################################################
 clean:
 	rm -rf build
