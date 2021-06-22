@@ -82,8 +82,7 @@ deb:
 	@ cp -frp ${INSTALL_PATH} build/debian/opt/
 	@ echo "db_address = /run/redis-openvas/redis.sock" > build/debian/opt/gvm/etc/openvas/openvas.conf
 	@ rm -rf build/debian/opt/gvm/include
-	@ rm -rf build/debian/opt/gvm/share
-	@ rm -rf build/debian/opt/gvm/share
+	@ rm -rf build/debian/opt/gvm/etc/default
 	@ rm -rf build/debian/opt/gvm/lib/systemd
 	@ rm -rf build/debian/opt/gvm/lib/pkgconfig
 	@ rm -rf build/debian/opt/gvm/var/run/*
