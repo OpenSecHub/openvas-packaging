@@ -1,20 +1,23 @@
 ###############################################################################
 # only support Tag Version
-PACKVER=21.4.0
+PACKVER=21.4.1
 
 GVM_LIBS_VER=${PACKVER}
-SMB_VER=${PACKVER}
-SCANNER_VER=21.4.1
+SMB_VER=21.4.0
+SCANNER_VER=${PACKVER}
 GVMD_VER=${PACKVER}
-GSA_VER=${PACKVER}
-OSPD_VER=${PACKVER}
-OSPD_OPENVAS_VER=${PACKVER}
+GSA_VER=21.4.0
+OSPD_VER=21.4.0
+OSPD_OPENVAS_VER=21.4.0
 
 
 PWD=$(shell pwd)
 # DO NOT MODIFY
 INSTALL_PATH=/opt/gvm
 PYTHONVENV=${INSTALL_PATH}/python3
+
+include build.mk
+include install.mk
 ###############################################################################
 .PHONY: all init clean gvm-libs openvas-smb openvas-scanner gvmd gsa ospd ospd-openvas
 
@@ -96,40 +99,8 @@ deb:
 init:
 	@ apt update -y
 	@ apt upgrade -y
-	apt install -y \
-        build-essential cmake pkg-config bison  \
-        gcc-mingw-w64 \
-        postgresql-server-dev-all \
-        libxml2-dev       \
-        libglib2.0-dev    \
-        libgpgme-dev      \
-        libgcrypt20-dev   \
-        libgnutls28-dev   \
-        libssh-gcrypt-dev \
-        libpcap-dev       \
-        libsnmp-dev       \
-        libradcli-dev     \
-        libldap2-dev      \
-        libhiredis-dev    \
-        libksba-dev       \
-        uuid-dev          \
-        libpq-dev         \
-        libical-dev       \
-        libnet-dev        \
-        libmicrohttpd-dev \
-        heimdal-dev       \
-        libpopt-dev       \
-        libunistring-dev  \
-        gnutls-bin        \
-        xml-twig-tools    \
-        xsltproc          \
-        xmltoman          \
-        clang-format      \
-        doxygen           \
-        graphviz          \
-        python3-pip       \
-        python3-venv
-
+	apt install -y ${BUILD_DEPS}
+        
 
 	# python venv
 	pip3 install pip --upgrade
@@ -156,10 +127,7 @@ init:
 
 ###############################################################################
 install:
-	@ apt install -y libpcap0.8 libldap-2.4-2 libldap-common libpopt0 libgpgme11 libhdb9-heimdal \
-		libical3 libradcli4 libssh2-1 libssh-gcrypt-4 libnet1 libhiredis0.14 libmicrohttpd12 \
-		libxml2 libuuid1 libgcrypt20 libgssapi3-heimdal libksba8 nmap snmp gnutls-bin \
-		redis-server postgresql postgresql-contrib xml-twig-tools xsltproc zlib1g
+	@ apt install -y ${INSTALL_DEPS}
 
 	@ echo "db_address = /run/redis-openvas/redis.sock" > /opt/gvm/etc/openvas/openvas.conf
 
