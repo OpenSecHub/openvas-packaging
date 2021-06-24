@@ -1,4 +1,5 @@
 build
 *.deb
 docker/Makefile
-docker
+docker/*.mk
+
