@@ -12,3 +12,6 @@ docker build -t ${CONTAINER_NAME}:${CONTAINER_TAG} . || exit 127
 
 # build deb
 docker run -t --rm -v $(dirname $(pwd)):/data ${CONTAINER_NAME}:${CONTAINER_TAG}
+
+# deb in ../build/ dir
+ls $(dirname $(pwd))/build/*.deb

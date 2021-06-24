@@ -92,7 +92,8 @@ deb:
 	@ rm -rf build/debian/opt/gvm/var/log/gvm/*
 	@ chown gvm:gvm -R build/debian/opt/gvm
 	@ chmod 0755 -R build/debian/opt/gvm/lib
-	@ dpkg -b build/debian openvas-v${PACKVER}-amd64.deb
+	@ dpkg -b build/debian build/openvas-v${PACKVER}-amd64.deb
+	@ ls ${PWD}/build/*.deb
 
 ###############################################################################
 # create build environment
