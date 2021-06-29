@@ -14,10 +14,7 @@
     - [Compile](#compile)
         - [Create build environment](#create-build-environment)
         - [Build sources](#build-sources)
-        - [Download feeds](#download-feeds)
         - [Build package](#build-package)
-    - [Install the package](#install-the-package)
-        - [Download feeds](#download-feeds-1)
         - [Access openvas](#access-openvas)
     - [Reference](#reference)
 
@@ -53,11 +50,7 @@
 
 ### Create build environment
 
-install deps
-
-intstall tools
-
-download sources(all sources in dir `src`)
+install deps and tools
 
 ```bash
 make init
@@ -65,7 +58,7 @@ make init
 
 ### Build sources
 
-build and install all modules
+build all modules
 
 ```bash
 make build
@@ -80,35 +73,6 @@ make deb
 ```
 
 -------------
-
-## Install the package
-
-```bash
-apt install -y libxml2  nmap snmp \
-  gnutls-bin libssh-gcrypt-4 libnet1 \
-  redis-server postgresql postgresql-contrib \
-  libgpgme11 libical3 libunistring2 \
-  libldap-2.4-2 libradcli4 libpopt0 \
-  libhiredis0.14 libmicrohttpd12 \
-  xml-twig-tools xsltproc heimdal-clients
-
-dpkg -i openvas-v21.4.0-amd64.deb
-```
-
-### Download feeds
-
-Even if the NVTs and feeds (`make data`) are packaged into `deb`, it still will take a long time to process the datas; 
-
-otherwise you need download data manually by commands below:
-
-```bash
-# /opt/gvm/update/update.sh
-sudo -Hiu gvm /opt/gvm/bin/greenbone-nvt-sync
-sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type GVMD_DATA
-sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type SCAP
-sudo -Hiu gvm /opt/gvm/sbin/greenbone-feed-sync --type CERT
-sudo -Hiu gvm /opt/gvm/sbin/openvas --update-vt-info
-```
 
 ### Access openvas
 
