@@ -83,7 +83,9 @@ make deb
 | api      | `<IP>:9390`         |
 | UI       | `https://<IP>:9392` |
 
-## Reference
+## References
+
+https://greenbone.github.io/docs/index.html
 
 https://www.howtoforge.com/how-to-install-and-use-gvm-vulnerability-scanner-on-ubuntu-20-04/
 
