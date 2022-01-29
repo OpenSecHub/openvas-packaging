@@ -87,6 +87,8 @@ make deb
 
 https://greenbone.github.io/docs/index.html
 
+https://greenbone.github.io/docs/gvm-21.04/index.html
+
 https://www.howtoforge.com/how-to-install-and-use-gvm-vulnerability-scanner-on-ubuntu-20-04/
 
 [ yu210148/gvm_install - A script to install GVM 11 on Ubuntu 20.04 or Debian 10](https://github.com/yu210148/gvm_install)
